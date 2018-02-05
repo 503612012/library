@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skyer.mapper.UserMapper">
+
+	<!-- 通过用户名查找 -->
+	<select id="findByUserName" resultMap="userMap">
+		select * from t_user where user_name = #{userName}
+	</select>
+
+	<!-- 结果集映射 -->
+	<resultMap type="com.skyer.vo.User" id="userMap">
+		<id column="dbid" property="id" />
+		<result column="user_name" property="userName" />
+		<result column="password" property="password" />
+		<result column="createTime" property="createTime" />
+		<result column="status" property="status" />
+		<result column="is_admin" property="isAdmin" />
+	</resultMap>
+
+</mapper>

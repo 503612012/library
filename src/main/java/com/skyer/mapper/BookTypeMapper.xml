@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skyer.mapper.BookTypeMapper">
+
+	<!-- 查询所有图书类别 -->
+	<select id="findAll" resultMap="bookTypeMap">
+		select * from t_type
+	</select>
+	
+	<!-- 通过主键查询 -->
+	<select id="findById" resultMap="bookTypeMap">
+		select * from t_type where dbid = #{id}
+	</select>
+
+	<!-- 结果集映射 -->
+	<resultMap type="com.skyer.vo.BookType" id="bookTypeMap">
+		<id column="dbid" property="id" />
+		<result column="type_name" property="typeName" />
+		<result column="status" property="status" />
+	</resultMap>
+
+</mapper>

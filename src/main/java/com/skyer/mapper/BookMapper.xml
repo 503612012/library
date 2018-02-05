@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skyer.mapper.BookMapper">
+
+	<!-- 查询所有图书 -->
+	<select id="findAll" resultType="hashmap">
+		select b.dbid id, b.book_name bookName, b.author, b.press, b.price, b.buy_date buyDate, b.image, b.`version`, b.`status`, b.remark, t.dbid bookType, t.type_name typeName from t_book b left join t_type t on b.book_type = t.dbid
+	</select>
+
+	<!-- 添加图书 -->
+	<insert id="add">
+		insert into t_book values (null, #{bookName}, #{author}, #{press}, #{price}, #{buyDate}, #{image}, #{version}, #{status}, #{bookType.id}, #{remark})
+	</insert>
+	
+	<!-- 通过主键获取 -->
+	<select id="findById" resultMap="bookMap">
+		select * from t_book where dbid = #{id}
+	</select>
+	
+	<!-- 获取首页数据信息 -->
+	<select id="getNumberInfo" resultType="hashmap">
+		select count(b.dbid) num, b.book_type bookType, t.type_name typeName from t_book b left join t_type t on b.book_type = t.dbid group by b.book_type
+	</select>
+	
+	<!-- 结果集映射 -->
+	<resultMap type="com.skyer.vo.Book" id="bookMap">
+		<id column="dbid" property="id" />
+		<result column="book_name" property="bookName" />
+		<result column="author" property="author" />
+		<result column="press" property="press" />
+		<result column="price" property="price" />
+		<result column="buy_date" property="buyDate" />
+		<result column="image" property="image" />
+		<result column="version" property="version" />
+		<result column="status" property="status" />
+		<result column="remark" property="remark" />
+		<association property="bookType" fetchType="eager" column="book_type" javaType="com.skyer.vo.BookType" select="com.skyer.mapper.BookTypeMapper.findById" />
+	</resultMap>
+
+</mapper>
